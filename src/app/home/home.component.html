@@ -26,9 +26,9 @@
 
         <img src="../../assets/images/landinglogonew.png" class="ami_newblock1logo">
 
-   <h2>We are opening a center in the Las Vegas, NV area at the end of November and are inviting you to be one of our participating practices!</h2>
+   <h2>We are opening a center in the Las Vegas, NV area at the end of November, and are inviting you to be one of our participating practices!</h2>
         <div class="clear"></div>
-<h3>We have a very limited number of practices we can accommodate so please review this information with a sense of urgency.</h3>
+<h3>We have a very limited number of practices we can accommodate. so, please review this information with a sense of urgency.</h3>
         <div class="clear"></div>
 
         <h4>OUR TESTING ANALYSIS IS BILLABLE BY YOUR PRACTICE AND WILL GENERATE A SUBSTANTIAL AMOUNT OF ADDITIONAL MONTHLY REVENUE. MANY OF OUR PRACTICES HAVE SEEN
@@ -212,32 +212,42 @@
         <div class="block_wrapperform">
         <h3>Contact us</h3>
 
-        <form>
+        <form [formGroup]="contactusForm"  (ngSubmit)="contactusFormSubmit(template)">
             <div class="form-group">
-                <input type="text" placeholder="Name  ">
-
+                <input type="text" placeholder="Name  " formControlName="name" (blur)="inputUntouch('name')">
+                <span
+            *ngIf="!contactusForm.controls['name'].valid && contactusForm.controls['name'].errors.required && contactusForm.controls['name'].touched">
+            Name field can not be blank</span>
             </div>
             <div class="form-group">
-                <input type="email" placeholder="Email Address   ">
-
+                <input type="email" placeholder="Email Address   " formControlName="emailaddress" (blur)="inputUntouch('emailaddress')">
+                <span
+            *ngIf="!contactusForm.controls['emailaddress'].valid && contactusForm.controls['emailaddress'].errors.required && contactusForm.controls['emailaddress'].touched">
+            Email field can not be blank</span>
+            <span *ngIf="!contactusForm.controls['emailaddress'].valid && !contactusForm.controls['emailaddress'].errors.required">Email is
+                not valid</span>
             </div>
 
             <div class="form-group">
-                <input type="text" placeholder="Phone Number  ">
-
+                <input type="text" placeholder="Phone Number  " formControlName="phone" (blur)="inputUntouch('phone')">
+                <span
+                *ngIf="!contactusForm.controls['phone'].valid && contactusForm.controls['phone'].errors.required && contactusForm.controls['phone'].touched">
+                phone Number field can not be blank</span>
             </div>
 
             <div class="clear"></div>
 
             <div class="form-group2">
-                <textarea placeholder="Address"></textarea>
+                <textarea placeholder="Address" formControlName="address"></textarea>
 
             </div>
             <div class="clear"></div>
 
             <div class="form-group3">
-                <textarea placeholder="Message "></textarea>
-
+                <textarea placeholder="Message " formControlName="message" (blur)="inputUntouch('message')"></textarea>
+                <span
+                *ngIf="!contactusForm.controls['message'].valid && contactusForm.controls['message'].errors.required && contactusForm.controls['message'].touched">
+                phone Number field can not be blank</span>
             </div>
             <div class="clear"></div>
 

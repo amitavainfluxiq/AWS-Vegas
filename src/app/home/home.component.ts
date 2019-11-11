@@ -13,7 +13,8 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 export class HomeComponent implements OnInit {
   modalRef: BsModalRef;
   windowScrolled: boolean;
-  public myform: FormGroup;
+  // public myform: FormGroup;
+  public contactusForm: FormGroup;
   public formSubmited: boolean = false;
   public successmodal: any = false;
   public stateslist: any;
@@ -33,20 +34,28 @@ export class HomeComponent implements OnInit {
       console.log(this.cookieservice.check('jwttoken'));
       this.setTempToken();
     }
-    let product:any = ['5d7f16463bd1bb6d1d19359b'];
-    this.myform = this.fb.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
-      phoneno: ['', Validators.compose([Validators.required, Validators.pattern(/[0-9\+\-\ ]/)])],
-      mobile: [''],
-      address: ['', Validators.required],
-      website: [''],
-      state: ['', Validators.required],
-      created_by: this.activatedroute.snapshot.params.repid,
-      signup:1,
-      product: [product]
+    /**Genarate Contact us Form */
+    this.contactusForm = this.fb.group({
+      message: ['', Validators.required],
+      address: [''],
+      phone: ['', Validators.required],
+      emailaddress: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
+      name:['',Validators.required]
     })
+    // let product:any = ['5d7f16463bd1bb6d1d19359b'];
+    // this.myform = this.fb.group({
+    //   firstname: ['', Validators.required],
+    //   lastname: ['', Validators.required],
+    //   email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
+    //   phoneno: ['', Validators.compose([Validators.required, Validators.pattern(/[0-9\+\-\ ]/)])],
+    //   mobile: [''],
+    //   address: ['', Validators.required],
+    //   website: [''],
+    //   state: ['', Validators.required],
+    //   created_by: this.activatedroute.snapshot.params.repid,
+    //   signup:1,
+    //   product: [product]
+    // })
   }
   setTempToken() {
     const link = this.api_url + 'temptoken';
@@ -55,8 +64,6 @@ export class HomeComponent implements OnInit {
         this.cookieservice.set('jwttoken', result.token);
         
     });
-
-    
   }
 
 
@@ -97,10 +104,11 @@ export class HomeComponent implements OnInit {
           })
       );
 
-    this.meta.setTitle('Advanced Wellness Solutions ');
-    this.meta.setTag('og:description', ' ');
+    this.meta.setTitle('Advanced Wellness Solutions Las Vegas ');
+    this.meta.setTag('og:description','Advanced Wellness Solutions is a Cutting-edge Healthcare Management System for ANS Testing with a built-in proprietary “smart” engagement form & billing profile for Physicians and Practice Managers in Las Vegas, NV.');
     this.meta.setTag('og:title', 'Advanced Wellness Solutions ');
     this.meta.setTag('og:type', 'www.advancewellnesssolutions.com/');
+    this.meta.setTag('og:Keywords', 'www.advancewellnesssolutions.com/');
     this.meta.setTag('og:image', 'https://www.advancewellnesssolutions.com/assets/images/logo.png');
     
   }
@@ -119,22 +127,22 @@ export class HomeComponent implements OnInit {
     });
     return result;
   }
-  
-
-  doSubmit(template: TemplateRef<any>){
-
-    this.formSubmited = true;
-    //console.log(this.myform.value);
-    for (let i in this.myform.controls) {
-      this.myform.controls[i].markAsTouched();
-    }
-    if (this.myform.valid) {
-      var link = this.api_url+'addorupdatedata';
+  /**For Contact_US submit */
+contactusFormSubmit(template: TemplateRef<any>){
+  for (let i in this.contactusForm.controls) {
+         this.contactusForm.controls[i].markAsTouched();
+      }
+  if(this.contactusForm.valid){
+    console.log(this.contactusForm.value);
+    var link = this.api_url+'awsvegassignupmail';
       var data: any = {
-        "source": "leads",
-        "data": this.myform.value,
-        "sourceobj":["created_by"]
-      };
+        "email": this.contactusForm.value.emailaddress,
+        "msg":this.contactusForm.value.message,
+        "name":this.contactusForm.value.name,
+        "address":this.contactusForm.value.address,
+        "phone":this.contactusForm.value.phone,
+      }
+    
       // this.successmodal = true;
       this.http.post(link, data)
           .subscribe(res => {
@@ -145,7 +153,7 @@ export class HomeComponent implements OnInit {
             if (result.status == 'success') {
   
               this.modalRef = this.modalService.show(template, {class: 'modal-md submitpopup'});
-              this.myform.reset();
+              this.contactusForm.reset();
 
               setTimeout(()=>{
               
@@ -155,26 +163,60 @@ export class HomeComponent implements OnInit {
               },3000);
            }
          })
-      }
   }
- 
+}
 
+  // doSubmit(template: TemplateRef<any>){
 
+  //   this.formSubmited = true;
+  //   //console.log(this.myform.value);
+  //   for (let i in this.myform.controls) {
+  //     this.myform.controls[i].markAsTouched();
+  //   }
+  //   if (this.myform.valid) {
+  //     var link = this.api_url+'addorupdatedata';
+  //     var data: any = {
+  //       "source": "leads",
+  //       "data": this.myform.value,
+  //       "sourceobj":["created_by"]
+  //     };
+  //     // this.successmodal = true;
+  //     this.http.post(link, data)
+  //         .subscribe(res => {
   
+  //           let result: any = {};
+  //           result = res;
+  //           console.log(result);
+  //           if (result.status == 'success') {
+  
+  //             this.modalRef = this.modalService.show(template, {class: 'modal-md submitpopup'});
+  //             this.myform.reset();
+
+  //             setTimeout(()=>{
+              
+  //               // this.successmodal = true;
+  //               // console.log(this.successmodal)
+  //               this.modalRef.hide();
+  //             },3000);
+  //          }
+  //        })
+  //     }
+  // }
+ 
   closep(){
     this.modalRef.hide();
   }
 
-  inputUntouch(form: any, val: any) {
-    console.log('on blur .....');
-    form.controls[val].markAsUntouched();
+  inputUntouch(val: any) {
+    //console.log('on blur .....');
+    this.contactusForm.controls[val].markAsUntouched();
   }
 
   
-  openmodal(img:any,template:TemplateRef<any>){
+  openmodal(template:TemplateRef<any>){
     
     this.modalRef = this.modalService.show(template,{class: 'modal-lg submitpopup'});
-    this.imgval = img;
+    // this.imgval = img;
   }
 
 }
