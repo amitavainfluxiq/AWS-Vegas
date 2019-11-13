@@ -103,13 +103,14 @@ export class HomeComponent implements OnInit {
               behavior: 'smooth'
           })
       );
+  
 
-    this.meta.setTitle('Advanced Wellness Solutions Las Vegas ');
+    this.meta.setTitle('Advanced Wellness Solutions Las Vegas, NV');
     this.meta.setTag('og:description','Advanced Wellness Solutions is a Cutting-edge Healthcare Management System for ANS Testing with a built-in proprietary “smart” engagement form & billing profile for Physicians and Practice Managers in Las Vegas, NV.');
-    this.meta.setTag('og:title', 'Advanced Wellness Solutions ');
-    this.meta.setTag('og:type', 'www.advancewellnesssolutions.com/');
-    this.meta.setTag('og:Keywords', 'www.advancewellnesssolutions.com/');
-    this.meta.setTag('og:image', 'https://www.advancewellnesssolutions.com/assets/images/logo.png');
+    this.meta.setTag('og:title', 'Advanced Wellness Solutions Las Vegas, NV');
+    this.meta.setTag('og:type', 'website');
+    this.meta.setTag('og:url', 'http://www.advancedwellnessvegas.com/');
+    this.meta.setTag('og:image', 'http://www.advancedwellnessvegas.com/assets/images/AWSFacebookBanner.jpg');
     
   }
 
